@@ -40,7 +40,7 @@ class UserController extends Controller
     $user = $this->user->create($request->validated()['user']);
     Auth::guard('api')->login($user);
     $token = JWTAuth::fromUser($user);
-    return $this->userResponse($token,);
+    return $this->userResponse($token, $user);
 }
     public function update(UpdateRequest $request): array
     {

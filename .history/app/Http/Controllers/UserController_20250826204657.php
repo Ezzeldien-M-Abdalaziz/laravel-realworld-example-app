@@ -36,25 +36,21 @@ class UserController extends Controller
     }
 
     public function store(StoreRequest $request): array
-{
-    $user = $this->user->create($request->validated()['user']);
-    Auth::guard('api')->login($user);
-    $token = JWTAuth::fromUser($user);
-    return $this->userResponse($token,);
-}
+    {
+        $user = $this->user->create($request->validated()['user']);
+        $token = JWTAuth::fromUser($user);
+        return $this->userResponse($token);
+    }
+
     public function update(UpdateRequest $request): array
     {
         $user = Auth::guard('api')->user();
         if (!$user instanceof User) {
             abort(Response::HTTP_UNAUTHORIZED);
         }
-
         $user->update($request->validated()['user']);
-
-        // either keep the current token or issue a new one
-        $token = JWTAuth::refresh(JWTAuth::getToken());
-
-        return $this->userResponse($token);
+        $token = JWTAuth::getToken();
+        return $this->userResponse($token ? $token->get() : JWTAuth::fromUser($user));
     }
 
     public function login(LoginRequest $request): array

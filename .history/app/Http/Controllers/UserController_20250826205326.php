@@ -38,9 +38,11 @@ class UserController extends Controller
     public function store(StoreRequest $request): array
 {
     $user = $this->user->create($request->validated()['user']);
+    // login the user with the api guard
     Auth::guard('api')->login($user);
+    // generate token from the logged-in user
     $token = JWTAuth::fromUser($user);
-    return $this->userResponse($token,);
+    return $this->userResponse($token, $user);
 }
     public function update(UpdateRequest $request): array
     {

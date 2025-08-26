@@ -36,12 +36,11 @@ class UserController extends Controller
     }
 
     public function store(StoreRequest $request): array
-{
-    $user = $this->user->create($request->validated()['user']);
-    Auth::guard('api')->login($user);
-    $token = JWTAuth::fromUser($user);
-    return $this->userResponse($token,);
-}
+    {
+        $user = $this->user->create($request->validated()['user']);
+        $token = JWTAuth::fromUser($user);
+        return $this->userResponse($token);
+    }
     public function update(UpdateRequest $request): array
     {
         $user = Auth::guard('api')->user();
