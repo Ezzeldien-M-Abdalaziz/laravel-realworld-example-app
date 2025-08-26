@@ -77,7 +77,7 @@ class ArticleController extends Controller
 
         return $this->articleResponse($article);
     }
-
+    
     protected function syncTags(Article $article): void
     {
         $this->articleService->syncTags($article, $this->request->validated()['article']['tagList'] ?? []);
