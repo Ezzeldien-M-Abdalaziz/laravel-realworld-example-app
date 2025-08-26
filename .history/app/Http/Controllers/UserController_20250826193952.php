@@ -47,13 +47,18 @@ class UserController extends Controller
     }
 
     public function login(LoginRequest $request): array
-    {
-        $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
-            return $this->userResponse($token);
-        }
-        abort(Response::HTTP_FORBIDDEN);
+{
+    $credentials = $request->validated();
+    $user = User::where('email', $credentials['email'])->first();
+
+    if ($user && \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password)) {
+        $token = \PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth::fromUser($user);
+        return $this->userResponse($token);
     }
+
+    abort(Response::HTTP_FORBIDDEN);
+}
+
 
     protected function userResponse(string $jwtToken): array
     {
@@ -65,7 +70,7 @@ class UserController extends Controller
             'user' => [
                 'token' => $jwtToken,
                 'id' => $user->id,
-                'username' => $user->username,
+                'name' => $user->name,
                 'email' => $user->email,
             ]
         ];

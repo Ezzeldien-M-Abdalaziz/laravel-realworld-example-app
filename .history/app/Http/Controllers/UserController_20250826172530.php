@@ -48,11 +48,16 @@ class UserController extends Controller
 
     public function login(LoginRequest $request): array
     {
-        $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
-            return $this->userResponse($token);
-        }
-        abort(Response::HTTP_FORBIDDEN);
+        // if ($token = Auth::guard('api')->attempt($request->validated()['user'])) {
+        //     return $this->userResponse($token);
+        // }
+        return $request->validated();
+
+        // if ($token = Auth::guard('api')->attempt($request->validated())) {
+        //     return $this->userResponse($token);
+        // }
+
+        // abort(Response::HTTP_FORBIDDEN);
     }
 
     protected function userResponse(string $jwtToken): array
@@ -65,7 +70,7 @@ class UserController extends Controller
             'user' => [
                 'token' => $jwtToken,
                 'id' => $user->id,
-                'username' => $user->username,
+                'name' => $user->name,
                 'email' => $user->email,
             ]
         ];

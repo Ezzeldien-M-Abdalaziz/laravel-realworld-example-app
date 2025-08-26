@@ -49,9 +49,15 @@ class UserController extends Controller
     public function login(LoginRequest $request): array
     {
         $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
-            return $this->userResponse($token);
-        }
+        $user = \App\Models\User::where('email', $credentials['email'])->first();
+
+        dd([
+            'given_password' => $credentials['password'],
+            'db_hash' => $user->password ?? null,
+            'hash_check' => \Illuminate\Support\Facades\Hash::check($credentials['password'], $user->password ?? '')
+        ]);
+
+
         abort(Response::HTTP_FORBIDDEN);
     }
 
@@ -65,7 +71,7 @@ class UserController extends Controller
             'user' => [
                 'token' => $jwtToken,
                 'id' => $user->id,
-                'username' => $user->username,
+                'name' => $user->name,
                 'email' => $user->email,
             ]
         ];

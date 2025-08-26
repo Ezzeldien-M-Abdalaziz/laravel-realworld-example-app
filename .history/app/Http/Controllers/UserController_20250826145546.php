@@ -38,7 +38,7 @@ class UserController extends Controller
     public function update(UpdateRequest $request): array
     {
         $user = Auth::guard('api')->user();
-        if (!$user instanceof User) {
+        if (!$user) {
             abort(Response::HTTP_UNAUTHORIZED);
         }
         $user->update($request->validated()['user']);
@@ -48,26 +48,19 @@ class UserController extends Controller
 
     public function login(LoginRequest $request): array
     {
-        $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
+        if ($token = Auth::guard('api')->attempt($request->validated()['user'])) {
             return $this->userResponse($token);
         }
+
         abort(Response::HTTP_FORBIDDEN);
     }
 
     protected function userResponse(string $jwtToken): array
     {
         $user = Auth::guard('api')->user();
-        if (!$user instanceof User) {
+        if (!$user) {
             abort(Response::HTTP_UNAUTHORIZED);
         }
-        return [
-            'user' => [
-                'token' => $jwtToken,
-                'id' => $user->id,
-                'username' => $user->username,
-                'email' => $user->email,
-            ]
-        ];
+        return ['user' => ['token' => $jwtToken] + $user->toArray()];
     }
 }

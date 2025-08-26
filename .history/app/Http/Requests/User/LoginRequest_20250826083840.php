@@ -18,15 +18,4 @@ class LoginRequest extends FormRequest
             'user.password' => 'required'
         ];
     }
-
-    public function validated($key = null, $default = null)
-    {
-        $data = parent::validated();
-
-        return [
-            'email' => $data['user']['email'],
-            'password' => $data['user']['password'],
-        ];
-    }
-
 }

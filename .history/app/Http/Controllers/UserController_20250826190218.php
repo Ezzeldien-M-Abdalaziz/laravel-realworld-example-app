@@ -30,9 +30,12 @@ class UserController extends Controller
 
     public function store(StoreRequest $request): array
     {
+        // $user = $this->user->create($request->validated()['user']);
+        // $token = JWTAuth::fromUser($user);
+        // return $this->userResponse($token);
+
         $user = $this->user->create($request->validated()['user']);
-        $token = JWTAuth::fromUser($user);
-        return $this->userResponse($token);
+        return $this->userResponse(JWTAuth::fromUser($user));
     }
 
     public function update(UpdateRequest $request): array
@@ -48,10 +51,17 @@ class UserController extends Controller
 
     public function login(LoginRequest $request): array
     {
-        $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
+        // if ($token = Auth::guard('api')->attempt($request->validated()['user'])) {
+        //     return $this->userResponse($token);
+        // }
+        // return $request->validated();
+        // dd($request->validated());
+        return Auth::guard('api')->attempt($request->validated()) ?: [];
+
+        if ($token = Auth::guard('api')->attempt($request->validated())) {
             return $this->userResponse($token);
         }
+
         abort(Response::HTTP_FORBIDDEN);
     }
 
@@ -65,7 +75,7 @@ class UserController extends Controller
             'user' => [
                 'token' => $jwtToken,
                 'id' => $user->id,
-                'username' => $user->username,
+                'name' => $user->name,
                 'email' => $user->email,
             ]
         ];

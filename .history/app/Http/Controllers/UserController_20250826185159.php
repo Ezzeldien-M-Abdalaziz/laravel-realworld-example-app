@@ -46,12 +46,28 @@ class UserController extends Controller
         return $this->userResponse($token ? $token->get() : JWTAuth::fromUser($user));
     }
 
+    // public function login(LoginRequest $request): array
+    // {
+    //     // if ($token = Auth::guard('api')->attempt($request->validated()['user'])) {
+    //     //     return $this->userResponse($token);
+    //     // }
+    //     // return $request->validated();
+    //     // dd($request->validated());
+    //     return Auth::guard('api')->attempt($request->validated()) ?: [];
+
+    //     if ($token = Auth::guard('api')->attempt($request->validated())) {
+    //         return $this->userResponse($token);
+    //     }
+
+    //     abort(Response::HTTP_FORBIDDEN);
+    // }
+
     public function login(LoginRequest $request): array
     {
-        $credentials = $request->validated();
-        if ($token = Auth::guard('api')->attempt($credentials)) {
+        if ($token = auth()->attempt($request->validated()['user'])) {
             return $this->userResponse($token);
         }
+
         abort(Response::HTTP_FORBIDDEN);
     }
 
@@ -65,7 +81,7 @@ class UserController extends Controller
             'user' => [
                 'token' => $jwtToken,
                 'id' => $user->id,
-                'username' => $user->username,
+                'name' => $user->name,
                 'email' => $user->email,
             ]
         ];

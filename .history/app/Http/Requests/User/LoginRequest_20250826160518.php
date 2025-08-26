@@ -23,10 +23,10 @@ class LoginRequest extends FormRequest
     {
         $data = parent::validated();
 
+        // 👇 flatten so Auth::attempt() works
         return [
             'email' => $data['user']['email'],
             'password' => $data['user']['password'],
         ];
     }
-
 }
