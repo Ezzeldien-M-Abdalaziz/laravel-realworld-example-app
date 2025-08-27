@@ -20,7 +20,7 @@ class CommentResource extends JsonResource
                 'username' => $this->user->username,
                 'bio' => $this->user->bio,
                 'image' => $this->user->image,
-                'following' => $this->user->followers->contains(Auth::user()->id())
+                'following' => $this->user->followers->contains(Auth::user()->id)
             ]
         ];
     }

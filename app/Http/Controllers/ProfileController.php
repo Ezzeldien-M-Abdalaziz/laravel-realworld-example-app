@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 
 class ProfileController extends Controller
 {
@@ -20,14 +21,14 @@ class ProfileController extends Controller
 
     public function follow(User $user): array
     {
-        auth()->user()->following()->attach($user->id);
+        Auth::user()->following()->attach($user->id);
 
         return $this->profileResponse($user);
     }
 
     public function unfollow(User $user): array
     {
-        auth()->user()->following()->detach($user->id);
+        Auth::user()->following()->detach($user->id);
 
         return $this->profileResponse($user);
     }
@@ -35,6 +36,6 @@ class ProfileController extends Controller
     protected function profileResponse(User $user): array
     {
         return ['profile' => $user->only('username', 'bio', 'image')
-            + ['following' => $this->user->doesUserFollowAnotherUser(auth()->id(), $user->id)]];
+            + ['following' => $this->user->doesUserFollowAnotherUser(Auth::user()->id, $user->id)]];
     }
 }
