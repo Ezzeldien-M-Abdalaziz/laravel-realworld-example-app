@@ -9,7 +9,7 @@ class DestroyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->route('comment')->user->id === Auth::user()->id;
+        return true;
     }
 
     public function rules(): array

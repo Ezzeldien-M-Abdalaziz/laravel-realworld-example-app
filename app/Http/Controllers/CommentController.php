@@ -33,6 +33,7 @@ class CommentController extends Controller
 
     public function destroy(Article $article, Comment $comment, DestroyRequest $request): void
     {
+        $this->authorize('delete', $comment);
         $comment->delete();
     }
 }
