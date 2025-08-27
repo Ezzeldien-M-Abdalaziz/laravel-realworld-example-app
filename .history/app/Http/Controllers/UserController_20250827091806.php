@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $user = Auth::guard('api')->user();
         if (!$user instanceof User) {
-            return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
+            return $this->errorResponse('You must be logged in to update your profile.', 401);
         }
 
         $user->update($request->validated()['user']);

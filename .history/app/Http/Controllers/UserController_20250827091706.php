@@ -50,7 +50,7 @@ class UserController extends Controller
     {
         $user = Auth::guard('api')->user();
         if (!$user instanceof User) {
-            return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
+            return $this->errorResponse('You must be logged in to update your profile.', 401);
         }
 
         $user->update($request->validated()['user']);
@@ -68,7 +68,7 @@ class UserController extends Controller
             return $this->successUserResponse($user, $token, 'Logged in successfully');
         }
 
-        return $this->errorResponse('Invalid credentials',Response::HTTP_FORBIDDEN);
+        return $this->errorResponse('Invalid credentials', 403);
     }
 
     protected function successUserResponse(User $user, string $jwtToken, string $message = 'Success')

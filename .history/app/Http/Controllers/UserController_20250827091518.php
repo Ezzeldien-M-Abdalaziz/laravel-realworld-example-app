@@ -2,14 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\User;
-use App\Traits\ApiResponse;
-use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\StoreRequest;
 use App\Http\Requests\User\UpdateRequest;
-use Symfony\Component\HttpFoundation\Response;
+use App\Models\User;
+use Illuminate\Support\Facades\Auth;
 use PHPOpenSourceSaver\JWTAuth\Facades\JWTAuth;
+use App\Traits\ApiResponse;
 
 class UserController extends Controller
 {
@@ -26,12 +25,12 @@ class UserController extends Controller
     {
         $user = Auth::guard('api')->user();
         if (!$user instanceof User) {
-            return $this->errorResponse('You must be logged in to view this user.',  Response::HTTP_UNAUTHORIZED);
+            return $this->errorResponse('You must be logged in to view this user.', HTTP::);
         }
 
         $token = JWTAuth::getToken();
         if (!$token) {
-            return $this->errorResponse('Token not found.', Response::HTTP_UNAUTHORIZED);
+            return $this->errorResponse('Token not found.', 401);
         }
 
         return $this->successUserResponse($user, (string) $token);
@@ -50,7 +49,7 @@ class UserController extends Controller
     {
         $user = Auth::guard('api')->user();
         if (!$user instanceof User) {
-            return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
+            return $this->errorResponse('You must be logged in to update your profile.', 401);
         }
 
         $user->update($request->validated()['user']);
@@ -68,7 +67,7 @@ class UserController extends Controller
             return $this->successUserResponse($user, $token, 'Logged in successfully');
         }
 
-        return $this->errorResponse('Invalid credentials',Response::HTTP_FORBIDDEN);
+        return $this->errorResponse('Invalid credentials', 403);
     }
 
     protected function successUserResponse(User $user, string $jwtToken, string $message = 'Success')
