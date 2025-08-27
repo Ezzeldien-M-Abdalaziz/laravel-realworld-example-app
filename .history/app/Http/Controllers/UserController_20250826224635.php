@@ -42,8 +42,8 @@ class UserController extends Controller
         $token = JWTAuth::fromUser($user);
         return $this->userResponse($token);
     }
-
-    public function update(UpdateRequest $request): array{
+    public function update(UpdateRequest $request): array
+{
     $user = Auth::guard('api')->user();
     if (!$user instanceof User) {
         abort(Response::HTTP_UNAUTHORIZED);

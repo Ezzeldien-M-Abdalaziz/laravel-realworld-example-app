@@ -21,5 +21,4 @@ class UpdateRequest extends FormRequest
             'user.bio' => 'sometimes|string|max:2048'
         ];
     }
-
 }
