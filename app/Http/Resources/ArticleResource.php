@@ -11,6 +11,14 @@ class ArticleResource extends JsonResource
 
     public function toArray($request): array
     {
+        $favorited = false;
+        $following = false;
+
+        if (Auth::user()) {
+            $favorited = $this->users->contains(Auth::user()->id);
+            $following = $this->user->followers->contains(Auth::user()->id);
+        }
+
         return [
             'slug' => $this->slug,
             'title' => $this->title,
@@ -20,12 +28,12 @@ class ArticleResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'favoritesCount' => (int) $this->users_count,
-            'favorited' => $this->users->contains(Auth::user()->id),
+            'favorited' => $favorited,
             'author' => [
                 'username' => $this->user->username,
                 'bio' => $this->user->bio,
                 'image' => $this->user->image,
-                'following' => $this->user->followers->contains(Auth::user()->id)
+                'following' => $following
             ]
         ];
     }

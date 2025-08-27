@@ -17,4 +17,3 @@ class DestroyRequest extends FormRequest
         return [];
     }
 }
-s
