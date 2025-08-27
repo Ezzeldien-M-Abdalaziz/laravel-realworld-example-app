@@ -46,22 +46,24 @@ class ArticleController extends Controller
     {
         $article = Auth::user()->articles()->create($request->validated()['article']);
 
-        $this->syncTags($article);
+        $this->syncTags($article , $request->validated());
 
         return $this->articleResponse($article);
     }
 
     public function update(Article $article, UpdateRequest $request): ArticleResource
     {
+        $this->authorize('update', $article);
         $article->update($request->validated()['article']);
 
-        $this->syncTags($article);
+        $this->syncTags($article, $request->validated());
 
         return $this->articleResponse($article);
     }
 
     public function destroy(Article $article, DestroyRequest $request): void
     {
+        $this->authorize('delete', $article);
         $article->delete();
     }
 
@@ -79,9 +81,9 @@ class ArticleController extends Controller
         return $this->articleResponse($article);
     }
 
-    protected function syncTags(Article $article): void
+    protected function syncTags(Article $article , array $data): void
     {
-        $this->articleService->syncTags($article, $this->request->validated()['article']['tagList'] ?? []);
+        $this->articleService->syncTags($article, $data['article']['tagList'] ?? []);
     }
 
     protected function articleResponse(Article $article): ArticleResource

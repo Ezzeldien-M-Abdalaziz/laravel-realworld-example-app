@@ -8,7 +8,7 @@ class UpdateRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->route('article')->user->id === auth()->id();
+        return true;
     }
 
     public function rules(): array
