@@ -11,6 +11,11 @@ class CommentResource extends JsonResource
 
     public function toArray($request): array
     {
+        $following = false;
+
+        if (Auth::user()) {
+            $following = $this->user->followers->contains(Auth::user()->id);
+        }
         return [
             'id' => $this->id,
             'createdAt' => $this->created_at,
@@ -20,7 +25,7 @@ class CommentResource extends JsonResource
                 'username' => $this->user->username,
                 'bio' => $this->user->bio,
                 'image' => $this->user->image,
-                'following' => $this->user->followers->contains(Auth::user()->id)
+                'following' => $following
             ]
         ];
     }
