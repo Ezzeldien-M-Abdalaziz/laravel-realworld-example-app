@@ -3,6 +3,7 @@
 namespace App\Http\Resources;
 
 use Illuminate\Http\Resources\Json\JsonResource;
+use Illuminate\Support\Facades\Auth;
 
 class ArticleResource extends JsonResource
 {
@@ -19,12 +20,12 @@ class ArticleResource extends JsonResource
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
             'favoritesCount' => (int) $this->users_count,
-            'favorited' => $this->users->contains(auth()->id()),
+            'favorited' => $this->users->contains(Auth::user()->id()),
             'author' => [
                 'username' => $this->user->username,
                 'bio' => $this->user->bio,
                 'image' => $this->user->image,
-                'following' => $this->user->followers->contains(auth()->id())
+                'following' => $this->user->followers->contains(Auth::user()->id())
             ]
         ];
     }
