@@ -18,4 +18,12 @@ class FeedRequest extends FormRequest
             'offset' => 'sometimes|integer'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'limit.integer' => 'The limit field must be an integer.',
+            'offset.integer' => 'The offset field must be an integer.',
+        ];
+    }
 }

@@ -17,4 +17,13 @@ class StoreRequest extends FormRequest
             'comment.body' => 'required|string|max:2048'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'comment.body.required' => 'The body field is required.',
+            'comment.body.string' => 'The body field must be a string.',
+            'comment.body.max' => 'The body field must not be greater than 2048 characters.',
+        ];
+    }
 }

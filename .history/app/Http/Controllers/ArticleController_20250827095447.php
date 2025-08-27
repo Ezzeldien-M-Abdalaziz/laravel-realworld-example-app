@@ -74,7 +74,7 @@ class ArticleController extends Controller
 
     public function unfavorite(Article $article): ArticleResource
     {
-        $article->users()->detach(Auth::user()->id);
+        $article->users()->detach(Auth::id());
 
         return $this->articleResponse($article);
     }

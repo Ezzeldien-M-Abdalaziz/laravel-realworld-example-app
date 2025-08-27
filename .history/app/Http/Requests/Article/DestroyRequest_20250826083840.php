@@ -2,14 +2,13 @@
 
 namespace App\Http\Requests\Article;
 
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Foundation\Http\FormRequest;
 
 class DestroyRequest extends FormRequest
 {
     public function authorize(): bool
     {
-        return $this->route('article')->user->id === Auth::id();
+        return $this->route('article')->user->id === auth()->id();
     }
 
     public function rules(): array

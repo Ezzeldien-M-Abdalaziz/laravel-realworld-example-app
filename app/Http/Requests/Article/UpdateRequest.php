@@ -21,4 +21,16 @@ class UpdateRequest extends FormRequest
             'article.tagList.*' => 'sometimes|string|max:255'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'article.title.string' => 'The title field must be a string.',
+            'article.title.max' => 'The title field must not be greater than 255 characters.',
+            'article.description.string' => 'The description field must be a string.',
+            'article.description.max' => 'The description field must not be greater than 255 characters.',
+            'article.body.string' => 'The body field must be a string.',
+            'article.body.max' => 'The body field must not be greater than 2048 characters.',
+        ];
+    }
 }

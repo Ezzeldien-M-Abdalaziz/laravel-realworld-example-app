@@ -67,14 +67,14 @@ class ArticleController extends Controller
 
     public function favorite(Article $article): ArticleResource
     {
-        $article->users()->attach(Auth::user()->id);
+        $article->users()->attach(auth()->id());
 
         return $this->articleResponse($article);
     }
 
     public function unfavorite(Article $article): ArticleResource
     {
-        $article->users()->detach(Auth::user()->id);
+        $article->users()->detach(auth()->id());
 
         return $this->articleResponse($article);
     }

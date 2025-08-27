@@ -19,4 +19,13 @@ class StoreRequest extends FormRequest
             'user.password' => 'required'
         ];
     }
+
+    public function messages()
+    {
+        return [
+            'user.username.required' => 'The username field is required.',
+            'user.email.required' => 'The email field is required.',
+            'user.password.required' => 'The password field is required.',
+        ];
+    }
 }
