@@ -372,6 +372,141 @@
                                     }
                                 }
                             ]
+                        },
+                        {
+                            "name": "revisions",
+                            "item": [
+                                {
+                                    "name": "[GET] api/articles/{article}/revisions",
+                                    "request": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{base_url}}/api/articles/{article}/revisions",
+                                            "host": [
+                                                "{{base_url}}"
+                                            ],
+                                            "path": [
+                                                "api",
+                                                "articles",
+                                                "{article}",
+                                                "revisions"
+                                            ]
+                                        },
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{auth_token}}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "[GET] api/articles/{article}/revisions/{revision}",
+                                    "request": {
+                                        "method": "GET",
+                                        "header": [
+                                            {
+                                                "key": "Accept",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            },
+                                            {
+                                                "key": "Content-Type",
+                                                "value": "application/json",
+                                                "type": "text"
+                                            }
+                                        ],
+                                        "url": {
+                                            "raw": "{{base_url}}/api/articles/{article}/revisions/{revision}",
+                                            "host": [
+                                                "{{base_url}}"
+                                            ],
+                                            "path": [
+                                                "api",
+                                                "articles",
+                                                "{article}",
+                                                "revisions",
+                                                "{revision}"
+                                            ]
+                                        },
+                                        "auth": {
+                                            "type": "bearer",
+                                            "bearer": [
+                                                {
+                                                    "key": "token",
+                                                    "value": "{{auth_token}}"
+                                                }
+                                            ]
+                                        }
+                                    }
+                                },
+                                {
+                                    "name": "",
+                                    "item": [
+                                        {
+                                            "name": "revert",
+                                            "item": [
+                                                {
+                                                    "name": "[POST] api/articles/{article}/revisions/{revision}/revert",
+                                                    "request": {
+                                                        "method": "POST",
+                                                        "header": [
+                                                            {
+                                                                "key": "Accept",
+                                                                "value": "application/json",
+                                                                "type": "text"
+                                                            },
+                                                            {
+                                                                "key": "Content-Type",
+                                                                "value": "application/json",
+                                                                "type": "text"
+                                                            }
+                                                        ],
+                                                        "url": {
+                                                            "raw": "{{base_url}}/api/articles/{article}/revisions/{revision}/revert",
+                                                            "host": [
+                                                                "{{base_url}}"
+                                                            ],
+                                                            "path": [
+                                                                "api",
+                                                                "articles",
+                                                                "{article}",
+                                                                "revisions",
+                                                                "{revision}",
+                                                                "revert"
+                                                            ]
+                                                        },
+                                                        "auth": {
+                                                            "type": "bearer",
+                                                            "bearer": [
+                                                                {
+                                                                    "key": "token",
+                                                                    "value": "{{auth_token}}"
+                                                                }
+                                                            ]
+                                                        }
+                                                    }
+                                                }
+                                            ]
+                                        }
+                                    ]
+                                }
+                            ]
                         }
                     ]
                 },
@@ -637,7 +772,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user.username\": \"user.username sample value\",\n    \"user.email\": \"user73@example.com\",\n    \"user.password\": \"user.password sample value\"\n}",
+                            "raw": "{\n    \"user.username\": \"user.username sample value\",\n    \"user.email\": \"user54@example.com\",\n    \"user.password\": \"user.password sample value\"\n}",
                             "options": []
                         }
                     }
@@ -751,7 +886,7 @@
                         },
                         "body": {
                             "mode": "raw",
-                            "raw": "{\n    \"user.username\": \"user.username sample value\",\n    \"user.email\": \"user27@example.com\",\n    \"user.password\": \"user.password sample value\",\n    \"user.image\": \"user.image sample value\",\n    \"user.bio\": \"user.bio sample value\"\n}",
+                            "raw": "{\n    \"user.username\": \"user.username sample value\",\n    \"user.email\": \"user83@example.com\",\n    \"user.password\": \"user.password sample value\",\n    \"user.image\": \"user.image sample value\",\n    \"user.bio\": \"user.bio sample value\"\n}",
                             "options": []
                         },
                         "auth": {

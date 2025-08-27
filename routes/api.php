@@ -2,6 +2,7 @@
 
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ArticleController;
+use App\Http\Controllers\ArticleRevisionController;
 use App\Http\Controllers\CommentController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\UserController;
@@ -44,5 +45,12 @@ Route::middleware(['auth:api'])->group(function () {
     Route::prefix('articles')->group(function () {
         Route::post('{article}/comments', [CommentController::class, 'store']);
         Route::delete('{article}/comments/{comment}', [CommentController::class, 'destroy']);
+    });
+
+
+    Route::prefix('articles/{article}/revisions')->group(function () {
+        Route::get('/', [ArticleRevisionController::class, 'index']);
+        Route::get('{revision}', [ArticleRevisionController::class, 'show']);
+        Route::post('{revision}/revert', [ArticleRevisionController::class, 'revert']);
     });
 });
