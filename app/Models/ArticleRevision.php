@@ -12,7 +12,9 @@ class ArticleRevision extends Model
         'title',
         'description',
         'body',
+        'slug',
     ];
+
 
     public function article()
     {

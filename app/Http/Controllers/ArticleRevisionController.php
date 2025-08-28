@@ -20,12 +20,15 @@ class ArticleRevisionController extends Controller
     {
         $this->authorize('view', $article);
 
-        return new ArticleRevisionResource($revision);
+        abort_if($revision->article_id !== $article->id, 404);
+        return new ArticleRevisionResource($revision->load('user'));
     }
 
     public function revert(Article $article, ArticleRevision $revision): ArticleRevisionResource
     {
-        $this->authorize('revert', $article);
+        // $this->authorize('revert', $article);
+
+        abort_if($revision->article_id !== $article->id, 404);
 
         $article->update([
             'title'       => $revision->title,
@@ -33,6 +36,6 @@ class ArticleRevisionController extends Controller
             'body'        => $revision->body,
         ]);
 
-        return new ArticleRevisionResource($revision);
+        return new ArticleRevisionResource($revision->load('user'));
     }
 }

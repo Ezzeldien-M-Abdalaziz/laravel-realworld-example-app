@@ -25,6 +25,7 @@ class ArticleObserver
             'user_id'     => Auth::id(),
             'title'       => $article->getOriginal('title'),
             'description' => $article->getOriginal('description'),
+            'slug'        => $article->getOriginal('slug'),
             'body'        => $article->getOriginal('body'),
         ]);
     }

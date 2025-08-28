@@ -20,12 +20,12 @@ class ArticleRevisionPolicy
      */
     public function view(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id || $user->is_admin;
+        return $user->id === $article->user_id;
     }
 
     public function revert(User $user, Article $article): bool
     {
-        return $user->id === $article->user_id || $user->is_admin;
+        return $user->id === $article->user_id;
     }
 
     /**
