@@ -11,7 +11,6 @@ class ArticleRevision extends Model
         'user_id',
         'title',
         'description',
-        'slug',
         'body',
     ];
 

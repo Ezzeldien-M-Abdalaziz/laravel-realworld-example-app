@@ -30,7 +30,6 @@ class ArticleRevisionController extends Controller
         $article->update([
             'title'       => $revision->title,
             'description' => $revision->description,
-            'slug'        => $revision->slug,
             'body'        => $revision->body,
         ]);
 

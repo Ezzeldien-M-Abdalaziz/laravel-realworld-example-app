@@ -48,9 +48,9 @@ Route::middleware(['auth:api'])->group(function () {
     });
 
     //revisions
-    Route::prefix('articles/{article}/revisions')->group(function () {
+    Route::prefix('articles/{id}/revisions')->group(function () {
         Route::get('/', [ArticleRevisionController::class, 'index']);
-        Route::get('{revision}', [ArticleRevisionController::class, 'show']);
-        Route::post('{revision}/revert', [ArticleRevisionController::class, 'revert']);
+        Route::get('{revision_id}', [ArticleRevisionController::class, 'show']);
+        Route::post('{revision_id}/revert', [ArticleRevisionController::class, 'revert']);
     });
 });
