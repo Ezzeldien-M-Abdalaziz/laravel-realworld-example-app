@@ -27,10 +27,6 @@ class AppServiceProvider extends ServiceProvider
     public function boot()
     {
         Article::observe(ArticleObserver::class);
-
-        // Bind {revision_id} to ArticleRevision by id
-        Route::bind('id', fn ($value) => Article::findOrFail($value));
-
     }
 
 }

@@ -17,6 +17,7 @@ class ArticleTest extends TestCase
         $response = $this->get('api/articles/' . $article->slug)
             ->assertExactJson([
                 'article' => [
+                    'id'    => $article->id,
                     'slug' => $article->slug,
                     'title' => $article->title,
                     'body' => $article->body,

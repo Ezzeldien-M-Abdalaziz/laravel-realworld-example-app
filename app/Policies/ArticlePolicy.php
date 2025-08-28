@@ -63,4 +63,15 @@ class ArticlePolicy
     {
         return false;
     }
+
+    //revision policies
+        public function viewRevisions(User $user, Article $article): bool
+        {
+            return $user->id === $article->user_id;
+        }
+
+        public function revert(User $user, Article $article): bool
+        {
+            return $user->id === $article->user_id;
+        }
 }
