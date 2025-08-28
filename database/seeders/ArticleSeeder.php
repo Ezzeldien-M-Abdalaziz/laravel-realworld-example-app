@@ -21,7 +21,7 @@ class ArticleSeeder extends Seeder
 
 			})
             ->each(function (Article $article) use ($users) {
-                $article->users()->sync($users->random(rand(1, min(3, max(1, $users->count()))))->pluck('id')->toArray());
+                $article->users()->except($article->user)->sync($users->random(rand(1, min(3, max(1, $users->count()))))->pluck('id')->toArray());
             });
 	}
 }
