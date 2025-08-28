@@ -47,7 +47,7 @@ Route::middleware(['auth:api'])->group(function () {
         Route::delete('{article}/comments/{comment}', [CommentController::class, 'destroy']);
     });
 
-
+    //revisions
     Route::prefix('articles/{article}/revisions')->group(function () {
         Route::get('/', [ArticleRevisionController::class, 'index']);
         Route::get('{revision}', [ArticleRevisionController::class, 'show']);
