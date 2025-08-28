@@ -1,37 +1,78 @@
-### Laravel implementation of RealWorld app
+## Setup & Running the Backend
 
-This Laravel app is part of the [RealWorld](https://github.com/gothinkster/realworld) project and implementation of the [Laravel best practices](https://github.com/alexeymezenin/laravel-best-practices).
+### Clone & Install
 
-You might also check [Ruby on Rails version](https://github.com/alexeymezenin/ruby-on-rails-realworld-example-app) of this app.
+- git clone <https://github.com/Ezzeldien-M-Abdalaziz/laravel-realworld-example-app.gitl>
+- cd laravel-realworld-example-app
+- composer install
+- cp .env.example .env
+- php artisan key:generate
 
-See how the exact same Medium.com clone (called [Conduit](https://demo.realworld.io)) is built using different [frontends](https://codebase.show/projects/realworld?category=frontend) and [backends](https://codebase.show/projects/realworld?category=backend). Yes, you can mix and match them, because **they all adhere to the same [API spec](https://gothinkster.github.io/realworld/docs/specs/backend-specs/introduction)**
 
-### How to run the API
+### Database Setup
 
-Make sure you have PHP and Composer installed globally on your computer.
+- Update .env with your DB credentials.
 
-Clone the repo and enter the project folder
+#### Run migrations:
 
-```
-git clone https://github.com/alexeymezenin/laravel-realworld-example-app.git
-cd laravel-realworld-example-app
-```
+- php artisan migrate
+- php artisan db:seed
 
-Install the app
 
-```
-composer install
-cp .env.example .env
-```
+### Run the server
 
-Run the web server
+- php artisan serve
 
-```
-php artisan serve
-```
+### Revision Feature Overview
 
-That's it. Now you can use the api, i.e.
+The Article Revision system automatically stores previous versions of an article whenever it’s updated.
 
-```
-http://127.0.0.1:8000/api/articles
-```
+Each revision stores the old title, description, body, and user ID.
+
+Revisions are linked to their parent article.
+
+#### Owners of articles can:
+
+- List revisions of an article
+
+- View a single revision
+
+- Revert the article to a previous revision
+
+### Assumptions & Design Decisions
+
+- Only the article owner can access or revert revisions (enforced by ArticleRevisionPolicy)
+
+- Revisions are created automatically by an Eloquent Observer (ArticleObserver).
+
+- Unauthorized users get 403 Forbidden.
+
+- Tests cover both happy path and unauthorized access.
+### Testing
+
+- Automated tests were added to ensure correctness:
+
+- Unit Test
+
+- ArticleObserverTest: verifies revisions are created on update.
+
+- Feature Tests
+
+#### ArticleRevisionTest: 
+- covers listing, showing, reverting, and unauthorized access.
+
+#### ArticleTest:
+- ensures articles can be fetched correctly.
+
+#### Run tests with:
+
+- php artisan test
+
+
+### Postman Collection
+
+- A Postman collection is included in the project (postman/ArticleRevisions.postman_collection.json).
+
+- Contains requests for list revisions, view revision, revert article.
+
+- Preconfigured with auth tokens where required.
