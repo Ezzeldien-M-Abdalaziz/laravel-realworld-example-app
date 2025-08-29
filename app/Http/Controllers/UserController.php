@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use App\Traits\ApiResponse;
+use App\Utils\ImageManager;
+use Illuminate\Support\Arr;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\User\LoginRequest;
 use App\Http\Requests\User\StoreRequest;
@@ -16,7 +18,6 @@ class UserController extends Controller
     use ApiResponse;
 
     protected User $user;
-
     public function __construct(User $user)
     {
         $this->user = $user;
@@ -39,7 +40,9 @@ class UserController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $user = $this->user->create($request->validated()['user']);
+        $user = $this->user->create(Arr::except($request->validated()['user'], 'image'));
+        ImageManager::uploadImages($request , $user);
+
         Auth::guard('api')->login($user);
         $token = JWTAuth::fromUser($user);
 
@@ -53,18 +56,14 @@ class UserController extends Controller
             return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
         }
 
-        // $user->update($request->validated()['user']);
-        // Get only the provided fields under 'user'
-        $data = $request->validated()['user'] ?? [];
+        $data = Arr::except($request->validated()['user'], 'image');
 
-        // Hash password if provided
-        if (!empty($data['password'])) {
-            $data['password'] = bcrypt($data['password']);
-        } else {
-            unset($data['password']);
-        }
+        // Handle image upload
+        ImageManager::uploadImages($request, $user);
 
+        // Update user
         $user->update($data);
+
         $token = JWTAuth::fromUser($user);
 
         return $this->successUserResponse($user, $token);

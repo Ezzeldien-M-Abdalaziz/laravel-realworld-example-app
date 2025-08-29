@@ -18,7 +18,7 @@ class UpdateRequest extends FormRequest
             'user.username' => ['sometimes' ,'string' ,'max:50' , Rule::unique('users', 'username')->ignore($this->user()->id)],
             'user.email' => ['sometimes' , 'email' , 'max:255' , Rule::unique('users', 'email')->ignore($this->user()->id)],
             'user.password' => 'sometimes',
-            'user.image' => 'sometimes|url',
+            'user.image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
             'user.bio' => 'sometimes|string|max:2048'
         ];
     }
