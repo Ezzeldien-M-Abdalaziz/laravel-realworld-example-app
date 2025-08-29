@@ -40,8 +40,7 @@ class UserController extends Controller
 
     public function store(StoreRequest $request)
     {
-        $user = $this->user->create(Arr::except($request->validated()['user'], 'image'));
-        ImageManager::uploadImages($request , $user);
+        $user = $this->user->create($request->validated()['user']);
 
         Auth::guard('api')->login($user);
         $token = JWTAuth::fromUser($user);
@@ -50,24 +49,27 @@ class UserController extends Controller
     }
 
     public function update(UpdateRequest $request)
-    {
-        $user = Auth::guard('api')->user();
-        if (!$user instanceof User) {
-            return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
-        }
+{
+    $user = Auth::guard('api')->user();
+    if (!$user instanceof User) {
+        return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
+    }
+    // dd($request->all(), $request->validated());
+    $data = $request->validated();
 
-        $data = Arr::except($request->validated()['user'], 'image');
-
-        // Handle image upload
+    // Handle image upload
+    if ($request->hasFile('image')) {
         ImageManager::uploadImages($request, $user);
+        $data['image'] = $user->image;
+    }
 
-        // Update user
+
         $user->update($data);
 
-        $token = JWTAuth::fromUser($user);
+    $token = JWTAuth::fromUser($user);
 
-        return $this->successUserResponse($user, $token);
-    }
+    return $this->successUserResponse($user, $token);
+}
 
     public function login(LoginRequest $request)
     {
@@ -88,9 +90,9 @@ class UserController extends Controller
                 'id'       => $user->id,
                 'username' => $user->username,
                 'email'    => $user->email,
-                'token'    => $jwtToken,
                 'bio'      => $user->bio ?? '',
                 'image'    => $user->image ?? null,
+                'token'    => $jwtToken,
             ]
         ]);
     }

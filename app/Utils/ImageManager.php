@@ -6,7 +6,7 @@ use Illuminate\Support\Str;
 
 class ImageManager
 {
-    public static function uploadImages($request , $user=null)
+    public static function uploadImages($request , $user)
     {
         if($request->hasFile('image')){
             self::deleteImageFromLocal($user->image);

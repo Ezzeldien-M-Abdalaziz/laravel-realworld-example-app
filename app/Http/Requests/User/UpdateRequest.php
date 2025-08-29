@@ -13,28 +13,28 @@ class UpdateRequest extends FormRequest
     }
 
     public function rules(): array
-    {
-        return [
-            'user.username' => ['sometimes' ,'string' ,'max:50' , Rule::unique('users', 'username')->ignore($this->user()->id)],
-            'user.email' => ['sometimes' , 'email' , 'max:255' , Rule::unique('users', 'email')->ignore($this->user()->id)],
-            'user.password' => 'sometimes',
-            'user.image' => 'sometimes|image|mimes:jpeg,png,jpg,gif,svg|max:2048',
-            'user.bio' => 'sometimes|string|max:2048'
-        ];
-    }
+{
+    return [
+        'username' => ['sometimes', 'string', 'max:50', Rule::unique('users', 'username')->ignore($this->user()->id)],
+        'email' => ['sometimes', 'email', 'max:255', Rule::unique('users', 'email')->ignore($this->user()->id)],
+        'password' => 'sometimes',
+        'image' => ['nullable' , 'image' , 'mimes:jpeg,png,jpg,gif,svg' , 'max:2048'],
+        'bio' => 'sometimes|string|max:2048'
+    ];
+}
 
-    public function messages()
-    {
-        return [
-            'user.username.string' => 'The username field must be a string.',
-            'user.username.max' => 'The username field must not be greater than 50 characters.',
-            'user.email.email' => 'The email field must be a valid email address.',
-            'user.email.max' => 'The email field must not be greater than 255 characters.',
-            'user.password.string' => 'The password field must be a string.',
-            'user.image.url' => 'The image field must be a valid URL.',
-            'user.bio.string' => 'The bio field must be a string.',
-            'user.bio.max' => 'The bio field must not be greater than 2048 characters.',
-        ];
-    }
+public function messages()
+{
+    return [
+        'username.string' => 'The username field must be a string.',
+        'username.max' => 'The username field must not be greater than 50 characters.',
+        'email.email' => 'The email field must be a valid email address.',
+        'email.max' => 'The email field must not be greater than 255 characters.',
+        'password.string' => 'The password field must be a string.',
+        'image' => 'The image field must be an image.',
+        'bio.string' => 'The bio field must be a string.',
+        'bio.max' => 'The bio field must not be greater than 2048 characters.',
+    ];
+}
 
 }

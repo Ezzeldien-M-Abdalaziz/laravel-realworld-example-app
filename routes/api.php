@@ -26,7 +26,7 @@ Route::prefix('articles')->group(function () {
 Route::middleware(['api.auth'])->group(function () {
     Route::prefix('user')->group(function () {
         Route::get('/', [UserController::class, 'show']);
-        Route::put('/', [UserController::class, 'update']);
+        Route::post('/', [UserController::class, 'update']);
     });
 
     Route::prefix('profiles')->group(function () {
