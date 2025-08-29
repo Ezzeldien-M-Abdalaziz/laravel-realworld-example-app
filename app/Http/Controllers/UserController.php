@@ -53,7 +53,18 @@ class UserController extends Controller
             return $this->errorResponse('You must be logged in to update your profile.', Response::HTTP_UNAUTHORIZED);
         }
 
-        $user->update($request->validated()['user']);
+        // $user->update($request->validated()['user']);
+        // Get only the provided fields under 'user'
+        $data = $request->validated()['user'] ?? [];
+
+        // Hash password if provided
+        if (!empty($data['password'])) {
+            $data['password'] = bcrypt($data['password']);
+        } else {
+            unset($data['password']);
+        }
+
+        $user->update($data);
         $token = JWTAuth::fromUser($user);
 
         return $this->successUserResponse($user, $token);
