@@ -43,7 +43,7 @@ class UserController extends Controller
         Auth::guard('api')->login($user);
         $token = JWTAuth::fromUser($user);
 
-        return $this->successUserResponse($user, $token, 'User created and logged in successfully');
+        return $this->successUserResponse($user, $token);
     }
 
     public function update(UpdateRequest $request)
@@ -56,7 +56,7 @@ class UserController extends Controller
         $user->update($request->validated()['user']);
         $token = JWTAuth::fromUser($user);
 
-        return $this->successUserResponse($user, $token, 'User updated successfully');
+        return $this->successUserResponse($user, $token);
     }
 
     public function login(LoginRequest $request)
@@ -65,19 +65,23 @@ class UserController extends Controller
 
         if ($token = Auth::guard('api')->attempt($credentials)) {
             $user = Auth::guard('api')->user();
-            return $this->successUserResponse($user, $token, 'Logged in successfully');
+            return $this->successUserResponse($user, $token);
         }
 
         return $this->errorResponse('Invalid credentials',Response::HTTP_FORBIDDEN);
     }
 
-    protected function successUserResponse(User $user, string $jwtToken, string $message = 'Success')
+    protected function successUserResponse(User $user, string $jwtToken)
     {
-        return $this->successResponse([
-            'id' => $user->id,
-            'username' => $user->username,
-            'email' => $user->email,
-            'token' => $jwtToken,
-        ], $message);
+        return response()->json([
+            'user' => [
+                'id'       => $user->id,
+                'username' => $user->username,
+                'email'    => $user->email,
+                'token'    => $jwtToken,
+                'bio'      => $user->bio ?? '',
+                'image'    => $user->image ?? null,
+            ]
+        ]);
     }
 }
